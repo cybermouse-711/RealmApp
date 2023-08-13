@@ -43,7 +43,17 @@ final class TaskListViewController: UITableViewController {
         var content = cell.defaultContentConfiguration()
         let taskList = taskLists[indexPath.row]
         content.text = taskList.title
-        content.secondaryText = taskList.tasks.count.formatted() //Поправить
+        
+        let taskCurrent = taskList.tasks.filter("isComplete = false")
+        let taskCompleted = taskList.tasks.filter("isComplete = true")
+        if !taskCurrent.isEmpty {
+            content.secondaryText = taskCurrent.count.formatted()
+        } else if taskCurrent.isEmpty, !taskCompleted.isEmpty {
+            content.secondaryText = "✓" //Не нашла функцию по созданию чек бокса
+        } else if taskCurrent.isEmpty, taskCompleted.isEmpty {
+            content.secondaryText = "0"
+        }
+        
         cell.contentConfiguration = content
         return cell
     }
