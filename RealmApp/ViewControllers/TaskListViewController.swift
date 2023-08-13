@@ -49,7 +49,7 @@ final class TaskListViewController: UITableViewController {
         if !taskCurrent.isEmpty {
             content.secondaryText = taskCurrent.count.formatted()
         } else if taskCurrent.isEmpty, !taskCompleted.isEmpty {
-            content.secondaryText = "✓" //Не нашла функцию по созданию чек бокса
+            content.secondaryText = "✓" //Не нашла функцию по созданию чекбокса
         } else if taskCurrent.isEmpty, taskCompleted.isEmpty {
             content.secondaryText = "0"
         }
@@ -95,7 +95,14 @@ final class TaskListViewController: UITableViewController {
     }
 
     @IBAction func sortingList(_ sender: UISegmentedControl) {
-        //Поправить
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            taskLists = taskLists.sorted(byKeyPath: "date")
+        default:
+            taskLists = taskLists.sorted(byKeyPath: "title")
+        }
+        tableView.reloadData()
     }
     
     @objc private func addButtonPressed() {

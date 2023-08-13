@@ -27,8 +27,12 @@ class TasksViewController: UITableViewController {
             action: #selector(addButtonPressed)
         )
         navigationItem.rightBarButtonItems = [addButton, editButtonItem]
-        currentTasks = taskList.tasks.filter("isComplete = false")
-        completedTasks = taskList.tasks.filter("isComplete = true")
+        sortedTask()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -69,11 +73,30 @@ class TasksViewController: UITableViewController {
             isDone(true)
         }
         
+        
         let doneAction = UIContextualAction(style: .normal, title: "Done") { [unowned self] _, _, isDone in
             storageManager.done(task)
+            sortedTask()
             tableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
         }
+        /*
+        var doneAction: UIContextualAction!
+        if task == currentTasks[indexPath.row] {
+            doneAction = UIContextualAction(style: .normal, title: "Done") { [unowned self] _, _, isDone in
+                storageManager.done(task)
+         sortedTask()
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                isDone(true)
+            }
+        } else  {
+                doneAction = UIContextualAction(style: .normal, title: "Updone") { [unowned self] _, _, isDone in
+                    storageManager.upDone(task)
+         sortedTask()
+                    tableView.reloadRows(at: [indexPath], with: .automatic)
+                    isDone(true)
+            }
+        } */
          
         editAction.backgroundColor = .orange
         doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
@@ -83,6 +106,11 @@ class TasksViewController: UITableViewController {
     
     @objc private func addButtonPressed() {
         showAlert()
+    }
+    
+    private func sortedTask() {
+        currentTasks = taskList.tasks.filter("isComplete = false")
+        completedTasks = taskList.tasks.filter("isComplete = true")
     }
 }
 
