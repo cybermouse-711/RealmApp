@@ -76,27 +76,20 @@ final class TasksViewController: UITableViewController {
             isDone(true)
         }
         
-        /*
-        let doneAction = UIContextualAction(style: .normal, title: "Done") { [unowned self] _, _, isDone in
-            storageManager.done(task)
-            sortedTask()
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            isDone(true)
-        } */
-        
         var doneAction: UIContextualAction!
-        if task == currentTasks[indexPath.row] {
+        
+        if !task.isComplete {
             doneAction = UIContextualAction(style: .normal, title: "Done") { [unowned self] _, _, isDone in
                 storageManager.done(task)
                 sortedTask()
-                tableView.reloadRows(at: [indexPath], with: .automatic)
+                tableView.reloadSections(IndexSet(integersIn: 0...1), with: .automatic)
                 isDone(true)
             }
-        } else if task == completedTasks[indexPath.row] {
+        } else if task.isComplete {
             doneAction = UIContextualAction(style: .normal, title: "Updone") { [unowned self] _, _, isDone in
                 storageManager.upDone(task)
                 sortedTask()
-                tableView.reloadRows(at: [indexPath], with: .automatic)
+                tableView.reloadSections(IndexSet(integersIn: 0...1), with: .automatic)
                 isDone(true)
             }
         }
