@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - DataManager
 class DataManager {
     static let shared = DataManager()
     private let storageManager = StorageManager.shared

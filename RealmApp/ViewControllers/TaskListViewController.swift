@@ -11,9 +11,11 @@ import RealmSwift
 
 final class TaskListViewController: UITableViewController {
 
+    // MARK: - Private property
     private var taskLists: Results<TaskList>!
     private let storageManager = StorageManager.shared
     
+    // MARK: - Override metods
     override func viewDidLoad() {
         super.viewDidLoad()
         let addButton = UIBarButtonItem(
@@ -94,8 +96,8 @@ final class TaskListViewController: UITableViewController {
         tasksVC.taskList = taskList
     }
 
+    // MARK: - IBAction
     @IBAction func sortingList(_ sender: UISegmentedControl) {
-        
         switch sender.selectedSegmentIndex {
         case 0:
             taskLists = taskLists.sorted(byKeyPath: "date")
@@ -105,6 +107,7 @@ final class TaskListViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    // MARK: - Private metods
     @objc private func addButtonPressed() {
         showAlert()
     }

@@ -9,6 +9,7 @@
 import RealmSwift
 import Foundation
 
+// MARK: - Models
 class TaskList: Object {
     @Persisted var title = ""
     @Persisted var date = Date()

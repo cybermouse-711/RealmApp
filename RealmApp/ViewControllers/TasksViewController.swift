@@ -9,14 +9,17 @@
 import UIKit
 import RealmSwift
 
-class TasksViewController: UITableViewController {
+final class TasksViewController: UITableViewController {
     
+    // MARK: - Public property
     var taskList: TaskList!
     
+    // MARK: - Private property
     private var currentTasks: Results<Task>!
     private var completedTasks: Results<Task>!
     private let storageManager = StorageManager.shared
 
+    // MARK: - Override metods
     override func viewDidLoad() {
         super.viewDidLoad()
         title = taskList.title
@@ -108,12 +111,14 @@ class TasksViewController: UITableViewController {
         showAlert()
     }
     
+    // MARK: - Private metods
     private func sortedTask() {
         currentTasks = taskList.tasks.filter("isComplete = false")
         completedTasks = taskList.tasks.filter("isComplete = true")
     }
 }
 
+// MARK: - AlertController
 extension TasksViewController { 
     private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
         let taskAlertFactory = TaskAlertControllerFactory(
