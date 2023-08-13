@@ -43,7 +43,7 @@ final class TaskListViewController: UITableViewController {
         var content = cell.defaultContentConfiguration()
         let taskList = taskLists[indexPath.row]
         content.text = taskList.title
-        content.secondaryText = taskList.tasks.count.formatted()
+        content.secondaryText = taskList.tasks.count.formatted() //Поправить
         cell.contentConfiguration = content
         return cell
     }
@@ -85,6 +85,7 @@ final class TaskListViewController: UITableViewController {
     }
 
     @IBAction func sortingList(_ sender: UISegmentedControl) {
+        //Поправить
     }
     
     @objc private func addButtonPressed() {

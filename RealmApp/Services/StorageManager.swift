@@ -58,6 +58,13 @@ class StorageManager {
         }
     }
     
+    func edit(_ task: Task, newTitle: String, newNote: String) {
+        write {
+            task.title = newTitle
+            task.note = newNote
+        }
+    }
+    
     private func write(completion: () -> Void) {
         do {
             try realm.write {

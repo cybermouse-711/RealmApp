@@ -60,7 +60,7 @@ class TasksViewController: UITableViewController {
 
 }
 
-extension TasksViewController {
+extension TasksViewController { 
     private func showAlert(with task: Task? = nil, completion: (() -> Void)? = nil) {
         let taskAlertFactory = TaskAlertControllerFactory(
             userAction: task != nil ? .editTask : .newTask,
@@ -69,7 +69,8 @@ extension TasksViewController {
         )
         let alert = taskAlertFactory.createAlert { [weak self] taskTitle, taskNote in
             if let task, let completion {
-                // TODO: - edit task
+                self?.storageManager.edit(task, newTitle: taskTitle, newNote: taskNote)
+                completion()
             } else {
                 self?.save(task: taskTitle, withNote: taskNote)
             }
