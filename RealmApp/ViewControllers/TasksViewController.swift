@@ -59,7 +59,7 @@ class TasksViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let task = indexPath.section == 0 ? currentTasks[indexPath.row] : completedTasks[indexPath.row]
+        var task = indexPath.section == 0 ? currentTasks[indexPath.row] : completedTasks[indexPath.row]
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] _, _, _ in
             storageManager.delete(task)
@@ -73,30 +73,30 @@ class TasksViewController: UITableViewController {
             isDone(true)
         }
         
-        
+        /*
         let doneAction = UIContextualAction(style: .normal, title: "Done") { [unowned self] _, _, isDone in
             storageManager.done(task)
             sortedTask()
             tableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
-        }
-        /*
+        } */
+        
         var doneAction: UIContextualAction!
         if task == currentTasks[indexPath.row] {
             doneAction = UIContextualAction(style: .normal, title: "Done") { [unowned self] _, _, isDone in
                 storageManager.done(task)
-         sortedTask()
+                sortedTask()
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 isDone(true)
             }
-        } else  {
-                doneAction = UIContextualAction(style: .normal, title: "Updone") { [unowned self] _, _, isDone in
-                    storageManager.upDone(task)
-         sortedTask()
-                    tableView.reloadRows(at: [indexPath], with: .automatic)
-                    isDone(true)
+        } else if task == completedTasks[indexPath.row] {
+            doneAction = UIContextualAction(style: .normal, title: "Updone") { [unowned self] _, _, isDone in
+                storageManager.upDone(task)
+                sortedTask()
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                isDone(true)
             }
-        } */
+        }
          
         editAction.backgroundColor = .orange
         doneAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
