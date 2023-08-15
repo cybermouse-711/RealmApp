@@ -42,21 +42,9 @@ final class TaskListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
-        var content = cell.defaultContentConfiguration()
+        let content = cell.defaultContentConfiguration()
         let taskList = taskLists[indexPath.row]
-        content.text = taskList.title
-        
-        let taskCurrent = taskList.tasks.filter("isComplete = false")
-        let taskCompleted = taskList.tasks.filter("isComplete = true")
-        if !taskCurrent.isEmpty {
-            content.secondaryText = taskCurrent.count.formatted()
-        } else if taskCurrent.isEmpty, !taskCompleted.isEmpty {
-            content.secondaryText = "✓" //Не нашла функцию по созданию чекбокса
-        } else if taskCurrent.isEmpty, taskCompleted.isEmpty {
-            content.secondaryText = "0"
-        }
-        
-        cell.contentConfiguration = content
+        cell.configur(taskList)
         return cell
     }
     
@@ -98,13 +86,10 @@ final class TaskListViewController: UITableViewController {
 
     // MARK: - IBAction
     @IBAction func sortingList(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            taskLists = taskLists.sorted(byKeyPath: "date")
-        default:
-            taskLists = taskLists.sorted(byKeyPath: "title")
-        }
-        tableView.reloadData()
+        taskLists = sender.selectedSegmentIndex == 0
+        ? taskLists.sorted(byKeyPath: "date")
+        : taskLists.sorted(byKeyPath: "title")
+    tableView.reloadData()
     }
     
     // MARK: - Private metods
